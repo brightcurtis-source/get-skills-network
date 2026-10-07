@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102a43">
+  <meta name="description" content="Explore data and cloud careers with Get Skills Network's beginner-friendly career explorer.">
+  <title>Career Explorer | Get Skills Network</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #102a43;
+      --muted: #627d98;
+      --blue: #176b87;
+      --blue-dark: #12556c;
+      --mint: #b9f2df;
+      --paper: #f5f8fa;
+      --line: #d9e2ec;
+      --white: #fff;
+      --shadow: 0 18px 55px rgba(16, 42, 67, .10);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+    button { font: inherit; }
+    .site-header {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1160px; margin: auto; padding: 22px 28px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -.03em; }
+    .brand-mark { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; color: var(--ink); background: var(--mint); font-weight: 900; }
+    .header-note { color: var(--muted); font-size: .9rem; }
+    main { max-width: 1160px; margin: 0 auto; padding: 26px 28px 76px; }
+    .hero {
+      position: relative; overflow: hidden; display: grid; grid-template-columns: 1.5fr .8fr;
+      gap: 30px; align-items: center; padding: clamp(30px, 6vw, 68px);
+      border-radius: 28px; color: var(--white); background: var(--ink); box-shadow: var(--shadow);
+    }
+    .hero::after { content: ""; position: absolute; width: 340px; height: 340px; right: -110px; top: -150px; border: 1px solid rgba(185,242,223,.28); border-radius: 50%; box-shadow: 0 0 0 35px rgba(185,242,223,.04), 0 0 0 75px rgba(185,242,223,.035); }
+    .eyebrow { margin: 0 0 14px; color: var(--mint); text-transform: uppercase; letter-spacing: .16em; font-size: .75rem; font-weight: 800; }
+    h1 { max-width: 680px; margin: 0; font-size: clamp(2.35rem, 6vw, 4.7rem); line-height: 1.02; letter-spacing: -.055em; }
+    .hero-copy { max-width: 590px; margin: 20px 0 0; color: #d9e2ec; font-size: 1.05rem; }
+    .hero-aside { position: relative; z-index: 1; justify-self: end; width: min(100%, 245px); padding: 24px; border: 1px solid rgba(255,255,255,.18); border-radius: 20px; background: rgba(255,255,255,.07); }
+    .hero-aside strong { display: block; margin-bottom: 6px; color: var(--mint); font-size: 2.5rem; line-height: 1; }
+    .hero-aside span { color: #d9e2ec; font-size: .92rem; }
+    .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin: 52px 0 20px; }
+    .section-heading h2 { margin: 0; font-size: clamp(1.5rem, 3vw, 2.1rem); letter-spacing: -.04em; }
+    .section-heading p { margin: 0; color: var(--muted); }
+    .career-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .career-card { display: flex; flex-direction: column; min-height: 295px; padding: 24px; border: 1px solid var(--line); border-radius: 20px; background: var(--white); box-shadow: 0 5px 18px rgba(16,42,67,.035); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+    .career-card:hover { transform: translateY(-4px); border-color: #9fb3c8; box-shadow: var(--shadow); }
+    .icon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 15px; background: #e6f7f2; font-size: 1.35rem; }
+    .career-card h3 { margin: 20px 0 6px; font-size: 1.25rem; letter-spacing: -.025em; }
+    .career-card p { flex: 1; margin: 0 0 20px; color: var(--muted); font-size: .95rem; }
+    .career-card button, .primary-button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 12px 16px; border: 0; border-radius: 11px; color: var(--white); background: var(--blue); font-weight: 750; cursor: pointer; transition: background .18s ease, transform .18s ease; }
+    .career-card button:hover, .primary-button:hover { background: var(--blue-dark); transform: translateY(-1px); }
+    button:focus-visible, input:focus-visible + span { outline: 3px solid #f6bd60; outline-offset: 3px; }
+    .trust-note { display: flex; gap: 14px; align-items: flex-start; margin-top: 26px; padding: 18px 20px; border: 1px solid #c8e8dc; border-radius: 16px; background: #ecfaf5; color: #335c50; font-size: .92rem; }
+    .trust-note strong { color: #163f34; }
+    .trust-note span:first-child { font-size: 1.2rem; }
+    .panel { max-width: 760px; margin: 42px auto 0; padding: clamp(24px, 5vw, 48px); border: 1px solid var(--line); border-radius: 24px; background: var(--white); box-shadow: var(--shadow); }
+    .panel[hidden] { display: none; }
+    .back-button { margin: 0 0 22px; padding: 0; border: 0; color: var(--blue); background: transparent; font-weight: 750; cursor: pointer; }
+    .quiz-top { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: .9rem; font-weight: 700; }
+    .progress { height: 7px; overflow: hidden; margin: 10px 0 30px; border-radius: 99px; background: #eaf0f4; }
+    .progress span { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--blue); transition: width .25s ease; }
+    .question-title { margin: 0 0 20px; font-size: clamp(1.4rem, 4vw, 2rem); line-height: 1.2; letter-spacing: -.035em; }
+    .answers { display: grid; gap: 11px; margin-bottom: 24px; }
+    .answer { position: relative; }
+    .answer input { position: absolute; opacity: 0; }
+    .answer span { display: block; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; color: var(--ink); cursor: pointer; transition: .15s ease; }
+    .answer span:hover { border-color: #829ab1; background: #f8fbfc; }
+    .answer input:checked + span { border-color: var(--blue); background: #eaf6f7; box-shadow: inset 0 0 0 1px var(--blue); }
+    .quiz-actions { display: flex; justify-content: space-between; align-items: center; gap: 14px; }
+    .text-button { padding: 10px 0; border: 0; color: var(--muted); background: transparent; font-weight: 700; cursor: pointer; }
+    .result-score { display: inline-block; margin: 6px 0 16px; padding: 7px 12px; border-radius: 99px; color: #175b49; background: #e6f7f2; font-size: .9rem; font-weight: 800; }
+    .result-next { margin-top: 24px; padding: 18px; border-radius: 14px; background: #f2f6f8; }
+    .result-next strong { display: block; margin-bottom: 4px; }
+    footer { max-width: 1160px; margin: auto; padding: 0 28px 30px; color: var(--muted); font-size: .85rem; }
+    @media (max-width: 780px) { .hero { grid-template-columns: 1fr; } .hero-aside { justify-self: start; width: auto; } .career-grid { grid-template-columns: 1fr; } .career-card { min-height: auto; } .section-heading { display: block; } .section-heading p { margin-top: 5px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">G</span><span>Get Skills Network</span></div>
+    <span class="header-note">Career exploration</span>
+  </header>
+
+  <main>
+    <section id="home">
+      <div class="hero">
+        <div>
+          <p class="eyebrow">Your next chapter starts here</p>
+          <h1>Find the kind of tech work that feels like you.</h1>
+          <p class="hero-copy">A quick, beginner-friendly way to explore three in-demand career paths. Answer a few questions, notice what interests you, and choose a next step.</p>
+        </div>
+        <aside class="hero-aside"><strong>3 paths</strong><span>Short reflections. Clear explanations. A place to start.</span></aside>
+      </div>
+
+      <div class="section-heading">
+        <div><p class="eyebrow" style="color:var(--blue);margin-bottom:6px">Choose a path</p><h2>Which role would you like to explore?</h2></div>
+        <p>About 2 minutes each</p>
+      </div>
+
+      <div class="career-grid">
+        <article class="career-card">
+          <span class="icon" aria-hidden="true">▤</span>
+          <h3>Data Analyst</h3>
+          <p>Find patterns in information and turn them into clear answers that help people make decisions.</p>
+          <button type="button" onclick="startQuiz('Data Analyst')">Explore this role <span aria-hidden="true">→</span></button>
+        </article>
+        <article class="career-card">
+          <span class="icon" aria-hidden="true">☁</span>
+          <h3>Cloud Engineer</h3>
+          <p>Build and care for the online systems that let apps and services run reliably.</p>
+          <button type="button" onclick="startQuiz('Cloud Engineer')">Explore this role <span aria-hidden="true">→</span></button>
+        </article>
+        <article class="career-card">
+          <span class="icon" aria-hidden="true">⤢</span>
+          <h3>Data Engineer</h3>
+          <p>Create dependable ways to collect, organize, and prepare data for others to use.</p>
+          <button type="button" onclick="startQuiz('Data Engineer')">Explore this role <span aria-hidden="true">→</span></button>
+        </article>
+      </div>
+
+      <aside class="trust-note"><span aria-hidden="true">✦</span><div><strong>A guide, not a verdict.</strong> Your answers reflect what sounds interesting today. You don’t need experience, and there are no wrong answers.</div></aside>
+    </section>
+
+    <section id="quiz" class="panel" aria-labelledby="quiz-title" hidden>
+      <button class="back-button" type="button" onclick="goHome()">← All career paths</button>
+      <div class="quiz-top"><span id="quiz-role"></span><span id="question-count"></span></div>
+      <div class="progress" role="progressbar" aria-label="Quiz progress"><span id="progress-fill"></span></div>
+      <h2 class="question-title" id="quiz-title"></h2>
+      <div class="answers" id="answers"></div>
+      <div class="quiz-actions"><button class="text-button" id="previous-button" type="button" onclick="previousQuestion()">← Previous</button><button class="primary-button" id="next-button" type="button" onclick="nextQuestion()">Next question →</button></div>
+    </section>
+
+    <section id="result" class="panel" aria-live="polite" hidden>
+      <button class="back-button" type="button" onclick="goHome()">← All career paths</button>
+      <p class="eyebrow" style="color:var(--blue);margin-bottom:8px">Your reflection</p>
+      <h2 class="question-title" id="result-title"></h2>
+      <span class="result-score" id="result-score"></span>
+      <p id="result-message"></p>
+      <div class="result-next"><strong>A good next step</strong><span id="result-next-step"></span></div>
+      <p style="margin:22px 0 0"><button class="primary-button" type="button" onclick="goHome()">Explore another career →</button></p>
+    </section>
+  </main>
+
+  <footer>© <span id="year"></span> Get Skills Network · Explore at your own pace.</footer>
+
+  <script>
+    const careerData = {
+      "Data Analyst": {
+        questions: [
+          "Would you enjoy looking for patterns in numbers or information?",
+          "Would you like turning information into charts or simple explanations?",
+          "Would you enjoy asking questions and using evidence to find answers?",
+          "Would you be patient checking information for mistakes?",
+          "Would you like explaining what you discovered to other people?"
+        ],
+        next: "Try tracking something you care about for a week, then make a small chart and explain what you notice."
+      },
+      "Cloud Engineer": {
+        questions: [
+          "Would you enjoy learning how websites and apps run online?",
+          "Would you like solving problems when a computer system stops working?",
+          "Would you enjoy setting up tools and services for other people to use?",
+          "Would you be interested in keeping systems reliable and secure?",
+          "Would you like learning how computers connect and share information?"
+        ],
+        next: "Explore a beginner cloud computing lesson and learn what a server does before trying a guided cloud lab."
+      },
+      "Data Engineer": {
+        questions: [
+          "Would you enjoy organizing information from different places?",
+          "Would you like building a process that moves information from one place to another?",
+          "Would you enjoy making information clean and ready for other people to use?",
+          "Would you be patient finding and fixing problems in a process?",
+          "Would you like learning how databases store information?"
+        ],
+        next: "Try learning basic spreadsheets and databases, then map how information could move from a form into a useful report."
+      }
+    };
+
+    const choices = [
+      { label: "Yes, that sounds interesting", score: 2 },
+      { label: "Maybe, I’d like to learn more", score: 1 },
+      { label: "Not really, at least for now", score: 0 }
+    ];
+    let currentRole = "";
+    let currentQuestion = 0;
+    let selectedAnswers = [];
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    function startQuiz(role) {
+      currentRole = role;
+      currentQuestion = 0;
+      selectedAnswers = Array(careerData[role].questions.length).fill(null);
+      document.getElementById("home").hidden = true;
+      document.getElementById("result").hidden = true;
+      document.getElementById("quiz").hidden = false;
+      document.getElementById("quiz-role").textContent = role;
+      renderQuestion();
+      document.getElementById("quiz").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function renderQuestion() {
+      const questions = careerData[currentRole].questions;
+      document.getElementById("question-count").textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+      document.getElementById("progress-fill").style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+      document.getElementById("quiz-title").textContent = questions[currentQuestion];
+      document.getElementById("answers").innerHTML = choices.map((choice, index) => `
+        <label class="answer"><input type="radio" name="answer" value="${choice.score}" ${selectedAnswers[currentQuestion] === choice.score ? "checked" : ""}><span>${choice.label}</span></label>
+      `).join("");
+      document.getElementById("previous-button").disabled = currentQuestion === 0;
+      document.getElementById("previous-button").style.opacity = currentQuestion === 0 ? ".45" : "1";
+      document.getElementById("next-button").textContent = currentQuestion === questions.length - 1 ? "See my reflection →" : "Next question →";
+    }
+
+    function nextQuestion() {
+      const chosen = document.querySelector('input[name="answer"]:checked');
+      if (!chosen) { alert("Choose one answer to continue."); return; }
+      selectedAnswers[currentQuestion] = Number(chosen.value);
+      if (currentQuestion < careerData[currentRole].questions.length - 1) {
+        currentQuestion++;
+        renderQuestion();
+      } else showResult();
+    }
+
+    function previousQuestion() {
+      if (currentQuestion > 0) { currentQuestion--; renderQuestion(); }
+    }
+
+    function showResult() {
+      const score = selectedAnswers.reduce((total, value) => total + value, 0);
+      let message;
+      if (score >= 8) message = `Several parts of ${currentRole.toLowerCase()} sound interesting to you. That curiosity is a great reason to explore the field further.`;
+      else if (score >= 4) message = `Some parts of ${currentRole.toLowerCase()} may appeal to you. A small hands-on activity can help you learn which parts you enjoy most.`;
+      else message = `This role may not feel like the best match for you right now, and that is completely okay. Interests can change as you discover new things.`;
+
+      document.getElementById("quiz").hidden = true;
+      document.getElementById("result").hidden = false;
+      document.getElementById("result-title").textContent = `Your ${currentRole} reflection`;
+      document.getElementById("result-score").textContent = `${score} of 10 interest points`;
+      document.getElementById("result-message").textContent = message;
+      document.getElementById("result-next-step").textContent = careerData[currentRole].next;
+      document.getElementById("result").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function goHome() {
+      document.getElementById("quiz").hidden = true;
+      document.getElementById("result").hidden = true;
+      document.getElementById("home").hidden = false;
+      document.getElementById("home").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  </script>
+</body>
+</html>
