@@ -82,6 +82,12 @@
     .result-score { display: inline-block; margin: 6px 0 16px; padding: 7px 12px; border-radius: 99px; color: #175b49; background: #e6f7f2; font-size: .9rem; font-weight: 800; }
     .result-next { margin-top: 24px; padding: 18px; border-radius: 14px; background: #f2f6f8; }
     .result-next strong { display: block; margin-bottom: 4px; }
+    .dimension-list { display: grid; gap: 12px; }
+    .dimension-row { padding: 14px 16px; border: 1px solid var(--line); border-radius: 13px; }
+    .dimension-heading { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 8px; font-size: .92rem; font-weight: 750; }
+    .dimension-heading span:last-child { color: var(--blue); white-space: nowrap; }
+    .dimension-track { height: 8px; overflow: hidden; border-radius: 99px; background: #eaf0f4; }
+    .dimension-fill { height: 100%; border-radius: inherit; background: var(--blue); }
     footer { max-width: 1160px; margin: auto; padding: 0 28px 30px; color: var(--muted); font-size: .85rem; }
     @media (max-width: 780px) { .hero { grid-template-columns: 1fr; } .hero-aside { justify-self: start; width: auto; } .career-grid { grid-template-columns: 1fr; } .career-card { min-height: auto; } .section-heading { display: block; } .section-heading p { margin-top: 5px; } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
@@ -106,7 +112,7 @@
 
       <div class="section-heading">
         <div><p class="eyebrow" style="color:var(--blue);margin-bottom:6px">Choose a path</p><h2>Which role would you like to explore?</h2></div>
-        <p>About 2 minutes each</p>
+        <p>15 questions · about 5 minutes</p>
       </div>
 
       <div class="career-grid">
@@ -130,7 +136,7 @@
         </article>
       </div>
 
-      <aside class="trust-note"><span aria-hidden="true">✦</span><div><strong>A guide, not a verdict.</strong> Your answers reflect what sounds interesting today. You don’t need experience, and there are no wrong answers.</div></aside>
+      <aside class="trust-note"><span aria-hidden="true">✦</span><div><strong>A structured reflection, not a pass/fail test.</strong> This tool helps you explore interest in common role activities. It is not a validated aptitude, hiring, or performance assessment, and it does not measure your current skill level.</div></aside>
     </section>
 
     <section id="quiz" class="panel" aria-labelledby="quiz-title" hidden>
@@ -148,6 +154,9 @@
       <h2 class="question-title" id="result-title"></h2>
       <span class="result-score" id="result-score"></span>
       <p id="result-message"></p>
+      <h3 style="margin:26px 0 12px">Your interest by work area</h3>
+      <div class="dimension-list" id="result-dimensions"></div>
+      <p style="color:var(--muted);font-size:.88rem;margin-top:14px">Scores summarize your answers only. They are for reflection and do not indicate ability or guarantee career fit.</p>
       <div class="result-next"><strong>A good next step</strong><span id="result-next-step"></span></div>
       <p style="margin:22px 0 0"><button class="primary-button" type="button" onclick="goHome()">Explore another career →</button></p>
     </section>
@@ -159,40 +168,72 @@
     const careerData = {
       "Data Analyst": {
         questions: [
-          "Would you enjoy looking for patterns in numbers or information?",
-          "Would you like turning information into charts or simple explanations?",
-          "Would you enjoy asking questions and using evidence to find answers?",
-          "Would you be patient checking information for mistakes?",
-          "Would you like explaining what you discovered to other people?"
+          { dimension: "Investigating data", text: "A team asks why customer activity changed last month. How interested would you be in exploring the data to find where the change happened?" },
+          { dimension: "Investigating data", text: "Before analyzing a report, you need to check what each field means and whether important records are missing. How appealing is that careful checking work?" },
+          { dimension: "Investigating data", text: "You notice two groups behave differently in a dataset. How interested would you be in comparing the groups and checking whether the difference is meaningful?" },
+          { dimension: "Investigating data", text: "You need to turn a broad business question into specific measures that can be analyzed. How much would you enjoy defining those measures?" },
+          { dimension: "Investigating data", text: "An unexpected result appears in your analysis. How interested would you be in testing alternative explanations before drawing a conclusion?" },
+          { dimension: "Working with analytical tools", text: "You have a large spreadsheet or database and need to filter, combine, and summarize records. How interested are you in this kind of structured investigation?" },
+          { dimension: "Working with analytical tools", text: "You are choosing a chart for a mixed audience. How much would you enjoy selecting a clear visual that communicates the key comparison accurately?" },
+          { dimension: "Working with analytical tools", text: "A report takes too long to update manually. How interested would you be in improving the steps so the analysis is more repeatable?" },
+          { dimension: "Working with analytical tools", text: "You need to learn a new spreadsheet, query, or visualization feature to answer a question. How appealing is learning tools as you work?" },
+          { dimension: "Working with analytical tools", text: "You are reviewing an analysis for formula errors, inconsistent labels, and misleading chart scales. How much would you value this quality-checking work?" },
+          { dimension: "Communicating insights", text: "You have found a useful pattern. How interested would you be in explaining what it means in plain language to colleagues?" },
+          { dimension: "Communicating insights", text: "A manager wants one recommendation, but the evidence has limitations. How comfortable are you explaining both the finding and its uncertainty?" },
+          { dimension: "Communicating insights", text: "Different teams want different measures of success. How interested would you be in asking questions to understand what decision the analysis should support?" },
+          { dimension: "Communicating insights", text: "You need to summarize a detailed analysis in a short briefing. How much would you enjoy choosing the few findings that matter most?" },
+          { dimension: "Communicating insights", text: "Your recommendation is challenged by a stakeholder. How interested would you be in walking through the evidence and revising your view if new facts emerge?" }
         ],
-        next: "Try tracking something you care about for a week, then make a small chart and explain what you notice."
+        next: "Choose a small public dataset, write one question you want to answer, create a simple chart, and explain what the data can—and cannot—tell you."
       },
       "Cloud Engineer": {
         questions: [
-          "Would you enjoy learning how websites and apps run online?",
-          "Would you like solving problems when a computer system stops working?",
-          "Would you enjoy setting up tools and services for other people to use?",
-          "Would you be interested in keeping systems reliable and secure?",
-          "Would you like learning how computers connect and share information?"
+          { dimension: "Designing cloud systems", text: "A growing app needs more computing capacity during busy periods. How interested would you be in designing a setup that can scale safely?" },
+          { dimension: "Designing cloud systems", text: "A service needs to store files, run application code, and connect to a database. How appealing is choosing and connecting the right cloud services?" },
+          { dimension: "Designing cloud systems", text: "A team wants to reduce cloud costs without making its service unreliable. How interested would you be in comparing options and trade-offs?" },
+          { dimension: "Designing cloud systems", text: "A system must continue working if one component fails. How much would you enjoy planning for backups and recovery?" },
+          { dimension: "Designing cloud systems", text: "You need to understand how networks, servers, storage, and applications fit together. How interested are you in learning that bigger picture?" },
+          { dimension: "Operating and improving platforms", text: "A website becomes slow during a busy period. How interested would you be in examining system measurements to locate the bottleneck?" },
+          { dimension: "Operating and improving platforms", text: "A software update causes an outage. How much would you enjoy investigating what changed and helping restore the service?" },
+          { dimension: "Operating and improving platforms", text: "A team repeats the same setup steps for every new environment. How interested would you be in automating those steps?" },
+          { dimension: "Operating and improving platforms", text: "You need to document a reliable process so another engineer can follow it during an incident. How appealing is this operational discipline?" },
+          { dimension: "Operating and improving platforms", text: "A service needs regular maintenance and monitoring. How comfortable are you with ongoing responsibility after the initial build is complete?" },
+          { dimension: "Security and reliability", text: "A new application needs access to cloud resources. How interested would you be in giving it only the permissions it needs?" },
+          { dimension: "Security and reliability", text: "You are reviewing a system for weak access controls or exposed information. How much would you value this careful security work?" },
+          { dimension: "Security and reliability", text: "A service should remain available even when demand or failures are unexpected. How interested are you in testing its resilience?" },
+          { dimension: "Security and reliability", text: "An alert may indicate a security issue, but the evidence is incomplete. How comfortable are you following a careful response process and escalating concerns?" },
+          { dimension: "Security and reliability", text: "Different teams want faster delivery, lower cost, and stronger safeguards. How interested would you be in helping balance these competing needs?" }
         ],
-        next: "Explore a beginner cloud computing lesson and learn what a server does before trying a guided cloud lab."
+        next: "Start with a cloud fundamentals lesson, then use a guided sandbox to deploy a simple static site and review its access and cost settings."
       },
       "Data Engineer": {
         questions: [
-          "Would you enjoy organizing information from different places?",
-          "Would you like building a process that moves information from one place to another?",
-          "Would you enjoy making information clean and ready for other people to use?",
-          "Would you be patient finding and fixing problems in a process?",
-          "Would you like learning how databases store information?"
+          { dimension: "Building data pipelines", text: "A business receives information from forms, applications, and partner files. How interested would you be in bringing those sources into a dependable flow?" },
+          { dimension: "Building data pipelines", text: "A daily data transfer sometimes misses records. How much would you enjoy tracing the stages to find where records are lost?" },
+          { dimension: "Building data pipelines", text: "A source system changes the names or types of its fields. How interested would you be in adapting the pipeline while protecting downstream users?" },
+          { dimension: "Building data pipelines", text: "A process currently requires repeated manual downloads and cleanup. How appealing is replacing it with an automated, repeatable workflow?" },
+          { dimension: "Building data pipelines", text: "Several teams need the same trusted dataset. How interested would you be in designing a reusable way to deliver it?" },
+          { dimension: "Data quality and modeling", text: "Two systems use different names for the same customer. How interested would you be in reconciling the records and defining consistent rules?" },
+          { dimension: "Data quality and modeling", text: "A report has duplicate, missing, or out-of-date records. How much would you enjoy building checks that detect those quality problems?" },
+          { dimension: "Data quality and modeling", text: "Analysts need a dataset that is easier to understand and query. How interested would you be in organizing it into clear, documented tables?" },
+          { dimension: "Data quality and modeling", text: "A transformation can be done in several ways, each with different costs and maintenance needs. How interested are you in comparing the trade-offs?" },
+          { dimension: "Data quality and modeling", text: "A team asks what a field means and where it came from. How much would you value documenting data definitions and lineage?" },
+          { dimension: "Platforms and dependable operations", text: "A pipeline processes much more data than before and is becoming slow. How interested would you be in finding ways to improve its performance?" },
+          { dimension: "Platforms and dependable operations", text: "A scheduled data job fails overnight. How comfortable are you investigating logs, identifying the cause, and arranging a safe recovery?" },
+          { dimension: "Platforms and dependable operations", text: "A data platform needs to protect sensitive records while still supporting approved work. How interested are you in designing appropriate access controls?" },
+          { dimension: "Platforms and dependable operations", text: "A change to a pipeline could affect many reports. How much would you enjoy testing the change and checking its downstream impact?" },
+          { dimension: "Platforms and dependable operations", text: "A team needs confidence that an important dataset is current and complete. How interested are you in monitoring and communicating its reliability?" }
         ],
-        next: "Try learning basic spreadsheets and databases, then map how information could move from a form into a useful report."
+        next: "Map a small data journey—from a form or CSV file, through cleaning and validation, to a table someone could use for a report."
       }
     };
 
     const choices = [
-      { label: "Yes, that sounds interesting", score: 2 },
-      { label: "Maybe, I’d like to learn more", score: 1 },
-      { label: "Not really, at least for now", score: 0 }
+      { label: "1 · Not at all interested", score: 1 },
+      { label: "2 · Slightly interested", score: 2 },
+      { label: "3 · Moderately interested", score: 3 },
+      { label: "4 · Very interested", score: 4 },
+      { label: "5 · Extremely interested", score: 5 }
     ];
     let currentRole = "";
     let currentQuestion = 0;
@@ -216,7 +257,7 @@
       const questions = careerData[currentRole].questions;
       document.getElementById("question-count").textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
       document.getElementById("progress-fill").style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
-      document.getElementById("quiz-title").textContent = questions[currentQuestion];
+      document.getElementById("quiz-title").textContent = questions[currentQuestion].text;
       document.getElementById("answers").innerHTML = choices.map((choice, index) => `
         <label class="answer"><input type="radio" name="answer" value="${choice.score}" ${selectedAnswers[currentQuestion] === choice.score ? "checked" : ""}><span>${choice.label}</span></label>
       `).join("");
@@ -241,15 +282,28 @@
 
     function showResult() {
       const score = selectedAnswers.reduce((total, value) => total + value, 0);
+      const average = score / selectedAnswers.length;
       let message;
-      if (score >= 8) message = `Several parts of ${currentRole.toLowerCase()} sound interesting to you. That curiosity is a great reason to explore the field further.`;
-      else if (score >= 4) message = `Some parts of ${currentRole.toLowerCase()} may appeal to you. A small hands-on activity can help you learn which parts you enjoy most.`;
-      else message = `This role may not feel like the best match for you right now, and that is completely okay. Interests can change as you discover new things.`;
+      if (average >= 3.8) message = `Your answers indicate strong current interest in several common ${currentRole.toLowerCase()} activities. Use the work-area breakdown below to identify what attracts you most, then try a small project to see how the real work feels.`;
+      else if (average >= 2.5) message = `Your answers indicate mixed or developing interest across common ${currentRole.toLowerCase()} activities. The work-area breakdown can help you choose one part to explore further.`;
+      else message = `Your answers indicate lower current interest in these ${currentRole.toLowerCase()} activities. That is useful information, not a judgment about your ability; interests can change with experience.`;
+
+      const dimensionTotals = {};
+      careerData[currentRole].questions.forEach((question, index) => {
+        if (!dimensionTotals[question.dimension]) dimensionTotals[question.dimension] = { total: 0, count: 0 };
+        dimensionTotals[question.dimension].total += selectedAnswers[index];
+        dimensionTotals[question.dimension].count++;
+      });
+      document.getElementById("result-dimensions").innerHTML = Object.entries(dimensionTotals).map(([name, values]) => {
+        const dimensionAverage = values.total / values.count;
+        const width = (dimensionAverage / 5) * 100;
+        return `<div class="dimension-row"><div class="dimension-heading"><span>${name}</span><span>${dimensionAverage.toFixed(1)} / 5</span></div><div class="dimension-track" aria-label="${name}: ${dimensionAverage.toFixed(1)} out of 5"><div class="dimension-fill" style="width:${width}%"></div></div></div>`;
+      }).join("");
 
       document.getElementById("quiz").hidden = true;
       document.getElementById("result").hidden = false;
       document.getElementById("result-title").textContent = `Your ${currentRole} reflection`;
-      document.getElementById("result-score").textContent = `${score} of 10 interest points`;
+      document.getElementById("result-score").textContent = `Average interest: ${average.toFixed(1)} / 5 · ${score} / 75 total`;
       document.getElementById("result-message").textContent = message;
       document.getElementById("result-next-step").textContent = careerData[currentRole].next;
       document.getElementById("result").scrollIntoView({ behavior: "smooth", block: "start" });
